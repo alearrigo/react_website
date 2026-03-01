@@ -13,7 +13,7 @@ const Footer: React.FC<FooterProps> = ({ t }) => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg overflow-hidden">
-              <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
+              <img src={`${import.meta.env.BASE_URL}favicon.png`} alt="Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-slate-500 text-sm font-medium">© {new Date().getFullYear()} Alessandro Arrigo</span>
           </div>

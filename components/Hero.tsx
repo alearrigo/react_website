@@ -33,7 +33,7 @@ const Hero: React.FC<HeroProps> = ({ t }) => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-500/30 to-blue-500/30 blur-2xl animate-pulse"></div>
               <div className="relative w-full h-full rounded-full border-4 border-slate-800 overflow-hidden shadow-2xl">
                 <img
-                  src="/my_pic.jpeg"
+                  src={`${import.meta.env.BASE_URL}my_pic.jpeg`}
                   alt="Alessandro Arrigo"
                   className="w-full h-full object-cover"
                 />

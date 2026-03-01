@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, isDarkMode, toggleTheme, lang
       <div className="container mx-auto px-6 flex items-center justify-between">
         <a href="#" className="flex items-center space-x-3 group">
           <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-            <img src="/favicon.png" alt="Logo" className="w-full h-full object-cover" />
+            <img src={`${import.meta.env.BASE_URL}favicon.png`} alt="Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 hidden sm:block">
             Alessandro Arrigo
