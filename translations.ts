@@ -11,7 +11,7 @@ export const translations = {
     hero: {
       // Line 1 is index 0. The Hero sets line 1 in the serif italic.
       headline: ['Trasformo', 'dati sanitari', 'in decisioni.'],
-      lead: 'Data scientist e product manager. Otto anni di lavoro sui dati sanitari: analisi rigorose, strumenti progettati per la produzione, formazione su R per i professionisti che quei dati li utilizzano ogni giorno.',
+      lead: 'Da otto anni lavoro all’incrocio tra dati, tecnologia e sanità: progetto sistemi analitici e prodotti software che trasformano dati complessi in strumenti utilizzabili per decidere.',
       cta: 'Contattami',
       viewWork: 'I servizi',
     },
@@ -20,10 +20,10 @@ export const translations = {
       lead: 'Otto anni dedicati a rendere leggibili i dati di chi cura le persone.',
       paragraphs: [
         'Lavoro nel settore sanitario, dove il compito è sempre lo stesso: prendere dati che nessuno riesce a interpretare e restituirli in una forma su cui si può decidere. L’obiettivo non è un report più curato, ma una decisione più difendibile.',
-        'Uso R e l’ecosistema open source per una ragione pratica prima che ideologica: gli strumenti aperti producono risultati che chiunque può riprodurre passo per passo. In ambito sanitario la riproducibilità non è un requisito formale, è ciò che distingue un’analisi da un’opinione.',
-        'Al lavoro analitico affianco un’attività continuativa di formazione, tra corsi, workshop e affiancamento. Un’analisi che solo io so riprodurre ha vita breve: si esaurisce nel momento in cui il progetto si chiude.',
+        'Il mio lavoro attraversa l’intero ciclo del dato: dalla costruzione di pipeline e infrastrutture analitiche fino alla progettazione di dashboard, applicazioni e strumenti utilizzati nei processi decisionali. Quando serve, lavoro direttamente sul codice; quando il problema è organizzativo, il mio ruolo è trasformare esigenze, vincoli e dati in un prodotto che un team possa realmente mantenere e utilizzare.',
+        'Prediligo tecnologie open source e architetture riproducibili, verificabili e trasferibili. In sanità non è soltanto una scelta tecnica: significa costruire sistemi che possano essere compresi, mantenuti e verificati anche dopo la fine del progetto.',
       ],
-      tools: 'Strumenti di lavoro quotidiani: R, tidyverse, Shiny, Rhino, Quarto, DuckDB, SQL, Docker, Git, Linux. Tutti aperti, verificabili e installabili all’interno di un’infrastruttura ospedaliera.',
+      tools: 'Lavoro principalmente con R, Shiny, DuckDB, SQL, Docker e strumenti moderni di data engineering e sviluppo software.',
       highlights: [
         { label: 'Anni nel settore', value: 8, suffix: '+' },
         { label: 'Progetti consegnati', value: 20, suffix: '+' },
@@ -35,19 +35,19 @@ export const translations = {
       lead: 'Tre modalità di collaborazione, a seconda del punto in cui ti trovi.',
       items: [
         {
-          title: 'Consulenza',
-          description: 'Analisi strategica per organizzazioni che dispongono dei dati ma non della struttura per interrogarli. Definiamo quali domande meritano una risposta, quali no, e quale percorso porta a ottenerla con le risorse effettivamente disponibili.',
-          features: ['Analisi esplorativa', 'Business intelligence', 'Data strategy', 'KPI e metriche'],
+          title: 'Strategia & Analytics',
+          description: 'Trasformo dati sanitari frammentati in sistemi informativi utilizzabili per prendere decisioni. Definiamo quali domande meritano una risposta, quali dati servono e come costruire metriche affidabili, comprensibili e riproducibili.',
+          features: ['Data strategy', 'KPI & metriche', 'Business intelligence', 'Analisi avanzata'],
         },
         {
-          title: 'Formazione',
-          description: 'Corsi su R, visualizzazione e statistica applicata, calibrati sul livello reale del gruppo e non su un programma standard. Pensati per team che oggi affidano al foglio di calcolo analisi che richiederebbero strumenti diversi.',
-          features: ['Corsi R e RStudio', 'Data visualization', 'Statistica applicata', 'Workshop pratici'],
+          title: 'Data Products & Software',
+          description: 'Progetto strumenti che portano l’analisi fuori dal notebook e dentro il lavoro quotidiano: applicazioni, dashboard, pipeline e sistemi analitici progettati per funzionare in produzione e poter essere mantenuti nel tempo.',
+          features: ['Data pipelines', 'Analytics applications', 'Dashboard', 'API & integrazioni'],
         },
         {
-          title: 'Sviluppo',
-          description: 'Dall’analisi funzionante al software mantenibile: librerie R documentate e dashboard Shiny progettate per la produzione, con il passaggio di consegne necessario perché restino operative nel tempo.',
-          features: ['Librerie R custom', 'Dashboard Shiny', 'Report automatizzati', 'API e integrazioni'],
+          title: 'Capability & Training',
+          description: 'Affianco team che vogliono portare internamente competenze di analisi e sviluppo, con formazione costruita sui loro dati, strumenti e problemi reali. L’obiettivo non è completare un programma didattico, ma rendere il gruppo autonomo.',
+          features: ['R & data analysis', 'Data visualization', 'Reproducible workflows', 'Workshop pratici'],
         },
       ],
     },
@@ -77,7 +77,6 @@ export const translations = {
       headline: ['Parliamo', 'del progetto.'],
       description: 'Scrivimi anche se il perimetro non è ancora definito: il primo confronto serve esattamente a delimitarlo e a capire se posso essere utile.',
       cta: 'info@alessandroarrigo.com',
-      response: 'Risposta entro 24 ore',
     },
   },
 
@@ -90,7 +89,7 @@ export const translations = {
     },
     hero: {
       headline: ['I turn health', 'data into', 'decisions.'],
-      lead: 'Data scientist and product manager. Eight years working with healthcare data: rigorous analysis, tools built for production, and R training for the professionals who use those numbers every day.',
+      lead: 'For eight years I have worked at the intersection of data, technology and healthcare, designing analytical systems and software products that turn complex data into practical tools for decision-making.',
       cta: 'Get in touch',
       viewWork: 'The services',
     },
@@ -99,10 +98,10 @@ export const translations = {
       lead: 'Eight years spent making the data of people who care for patients readable.',
       paragraphs: [
         'I work in healthcare, where the task is always the same: take data nobody can interpret and return it in a shape you can decide on. The goal is not a better-looking report, but a more defensible decision.',
-        'I use R and the open-source ecosystem for a practical reason before an ideological one: open tools produce results anyone can reproduce step by step. In healthcare, reproducibility is not a formality, it is what separates an analysis from an opinion.',
-        'Alongside the analytical work I teach continuously, through courses, workshops and hands-on support. An analysis only I can reproduce is short-lived: it ends the moment the project does.',
+        'My work spans the entire data lifecycle, from building pipelines and analytical infrastructure to designing dashboards, applications and tools used in decision-making. When needed, I work directly on the code; when the challenge is organisational, my role is to translate needs, constraints and data into a product a team can actually maintain and use.',
+        'I favour open-source technologies and architectures that are reproducible, verifiable and transferable. In healthcare, this is more than a technical choice: it means building systems that can be understood, maintained and audited after the project ends.',
       ],
-      tools: 'Daily tools: R, tidyverse, Shiny, Rhino, Quarto, DuckDB, SQL, Docker, Git, Linux. All open, verifiable, and installable inside hospital infrastructure.',
+      tools: 'I work mainly with R, Shiny, DuckDB, SQL, Docker and modern tools for data engineering and software development.',
       highlights: [
         { label: 'Years in the sector', value: 8, suffix: '+' },
         { label: 'Projects delivered', value: 20, suffix: '+' },
@@ -114,19 +113,19 @@ export const translations = {
       lead: 'Three ways to work together, depending on where you currently stand.',
       items: [
         {
-          title: 'Consulting',
-          description: 'Strategic analysis for organisations that hold the data but not the structure to interrogate it. We establish which questions deserve an answer, which do not, and what route reaches one with the resources actually available.',
-          features: ['Exploratory analysis', 'Business intelligence', 'Data strategy', 'KPIs and metrics'],
+          title: 'Strategy & Analytics',
+          description: 'I turn fragmented healthcare data into information systems that support decision-making. Together, we define which questions deserve an answer, what data is needed and how to build reliable, understandable and reproducible metrics.',
+          features: ['Data strategy', 'KPIs & metrics', 'Business intelligence', 'Advanced analytics'],
         },
         {
-          title: 'Training',
-          description: 'Courses on R, visualisation and applied statistics, calibrated to the group’s real level rather than to a standard syllabus. Built for teams currently handling in spreadsheets the analysis that calls for different tools.',
-          features: ['R and RStudio courses', 'Data visualization', 'Applied statistics', 'Hands-on workshops'],
+          title: 'Data Products & Software',
+          description: 'I design tools that take analysis out of the notebook and into everyday work: applications, dashboards, pipelines and analytical systems built to run in production and remain maintainable over time.',
+          features: ['Data pipelines', 'Analytics applications', 'Dashboards', 'APIs & integrations'],
         },
         {
-          title: 'Development',
-          description: 'From working analysis to maintainable software: documented R packages and Shiny dashboards built for production, with the handover required to keep them running over time.',
-          features: ['Custom R libraries', 'Shiny dashboards', 'Automated reports', 'APIs and integrations'],
+          title: 'Capability & Training',
+          description: 'I support teams that want to bring analytical and development skills in-house, with training built around their own data, tools and real problems. The goal is not to complete a syllabus, but to help the team work independently.',
+          features: ['R & data analysis', 'Data visualization', 'Reproducible workflows', 'Hands-on workshops'],
         },
       ],
     },
@@ -156,7 +155,6 @@ export const translations = {
       headline: ['Let’s discuss', 'your project.'],
       description: 'Write even if the scope is not yet defined: the first conversation exists precisely to define it and to establish whether I can be useful.',
       cta: 'info@alessandroarrigo.com',
-      response: 'Reply within 24 hours',
     },
   },
 };

@@ -64,12 +64,6 @@ const Contact: React.FC<ContactProps> = ({ t }) => {
                 <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-right scale-x-0 bg-current transition-transform delay-150 duration-500 group-hover:origin-left group-hover:scale-x-100" />
               </a>
             </Lift>
-            <Lift delay={0.5}>
-              <p className="nav-link mt-7 flex items-center gap-2.5 text-[0.94rem] opacity-70">
-                <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                {t.contact.response}
-              </p>
-            </Lift>
           </div>
         </div>
       </div>
