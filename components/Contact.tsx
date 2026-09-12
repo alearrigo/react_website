@@ -1,37 +1,75 @@
-
 import React from 'react';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { Translations } from '../translations';
+import { MaskLines, Lift } from './Kinetics';
 
 interface ContactProps {
   t: Translations;
 }
 
+const OUT = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * The page's one saturated field. Everything before it is black and hairlines,
+ * so the inverted block is the loudest thing on the site, which is where the
+ * loudest thing belongs: next to the email address.
+ */
 const Contact: React.FC<ContactProps> = ({ t }) => {
+  const reduced = useReducedMotion();
+
+  // The observer has to watch the section, not the thing being revealed: an
+  // element that hides itself never reports as intersecting, so it would wait
+  // forever to be shown. The field is painted permanently and a shutter
+  // retracts off it, so the block is legible even if nothing animates.
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef, { once: true, margin: '-15%' });
+
   return (
-    <section id="contact" className="py-24 bg-slate-900/50">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto rounded-[3rem] p-12 lg:p-20 relative overflow-hidden glass border-emerald-500/10">
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="relative isolate mt-28 scroll-mt-24 overflow-hidden bg-field lg:mt-40"
+    >
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 origin-bottom bg-ground"
+        initial={{ scaleY: 1 }}
+        animate={{ scaleY: reduced || inView ? 0 : 1 }}
+        transition={{ duration: 1.05, ease: OUT }}
+      />
 
-          <div className="relative z-10 text-center space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-black text-white">{t.contact.title} <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">{t.contact.titleHighlight}</span> {t.contact.titleEnd}</h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {t.contact.description}
-            </p>
+      <div className="shell relative z-10 py-24 text-field-fg lg:py-32">
+        <MaskLines
+          lines={[...t.contact.headline]}
+          serif={[1]}
+          delay={0.25}
+          className="display text-[clamp(3rem,11.5vw,10rem)]"
+        />
 
-            <div className="pt-6">
+        <div className="mt-14 grid gap-x-16 gap-y-12 lg:mt-20 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <Lift delay={0.35}>
+              <p className="measure text-[1.32rem] opacity-80">{t.contact.description}</p>
+            </Lift>
+          </div>
+
+          <div className="min-w-0 lg:col-span-7 lg:justify-self-end">
+            <Lift delay={0.42}>
               <a
                 href="mailto:info@alessandroarrigo.com"
-                className="group inline-flex items-center space-x-4 px-8 py-5 bg-emerald-500 hover:bg-emerald-400 text-slate-900 rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-emerald-500/20"
+                className="nav-link group relative inline-block max-w-full [overflow-wrap:anywhere] text-[clamp(1.35rem,3.9vw,2.7rem)]"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>{t.contact.cta}</span>
+                {t.contact.cta}
+                <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-left bg-current opacity-30 transition-transform duration-500 group-hover:scale-x-0" />
+                <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-right scale-x-0 bg-current transition-transform delay-150 duration-500 group-hover:origin-left group-hover:scale-x-100" />
               </a>
-            </div>
-
-            <p className="text-sm text-slate-500 font-medium pt-8">
-              {t.contact.response}
-            </p>
+            </Lift>
+            <Lift delay={0.5}>
+              <p className="nav-link mt-7 flex items-center gap-2.5 text-[0.94rem] opacity-70">
+                <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                {t.contact.response}
+              </p>
+            </Lift>
           </div>
         </div>
       </div>

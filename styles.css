@@ -1,0 +1,338 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tokens
+
+   One theme, one accent. Everything that is not interactive is anthracite
+   and bone.
+   --------------------------------------------------------------------------- */
+:root {
+  --ground: #101317;
+  --ground-raised: #171b20;
+  --fg: #edeae3;
+  --fg-dim: #8b8a84;
+  --fg-faint: #85847e;
+  --rule: rgba(237, 234, 227, 0.14);
+  --rule-soft: rgba(237, 234, 227, 0.07);
+  --dot: rgba(237, 234, 227, 0.075);
+
+  /* Okabe-Ito sky blue: the one colourblind-safe accent the R world reads. */
+  --accent: #56b4e9;
+
+  /* The single inverted block on the page. Monochrome, not saturated. */
+  --field: #edeae3;
+  --field-fg: #101317;
+
+  --grain-opacity: 0.045;
+}
+
+@theme {
+  --color-ground: var(--ground);
+  --color-raised: var(--ground-raised);
+  --color-fg: var(--fg);
+  --color-dim: var(--fg-dim);
+  --color-faint: var(--fg-faint);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-accent: var(--accent);
+  --color-field: var(--field);
+  --color-field-fg: var(--field-fg);
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-prose: "Newsreader", ui-serif, Georgia, serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+* { -webkit-tap-highlight-color: transparent; }
+
+html {
+  background: var(--ground);
+  /* Lenis drives the scroll; native smooth scrolling fights it. */
+  scroll-behavior: auto;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  /* Deliberately no background: a block-level descendant's background paints
+     after negative z-index children, and would bury the grid layer. */
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--font-prose);
+  font-optical-sizing: auto;
+  font-size: 1.28rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* No `a { color: inherit }` here: unlayered rules outrank every Tailwind
+   utility, so it would silently kill text-colour utilities on every link.
+   Preflight already does it inside @layer base. */
+
+::selection {
+  background: var(--accent);
+  color: var(--ground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Display type: Archivo pushed onto its width axis. Components animate the
+   axis directly, so the class only sets the resting state. */
+.display {
+  font-family: var(--font-display);
+  font-variation-settings: var(--display-axes, "wdth" 110, "wght" 780);
+  font-weight: 780;
+  letter-spacing: -0.032em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+/* The counterweight: same size, set in the serif, italic and light.
+   Whole lines only: a single accented word is the oldest tell there is. */
+.display-serif {
+  font-family: var(--font-prose);
+  font-style: italic;
+  /* Reset the axes explicitly, or the grotesk's animated wdth/wght is
+     inherited straight into the serif. */
+  font-variation-settings: "opsz" 48, "wght" 300;
+  font-weight: 300;
+  font-size: 1.1em;
+  letter-spacing: -0.026em;
+  line-height: 0.98;
+}
+
+/* Navigation. Same axis settings as the wordmark, a step down in weight, so
+   the header reads as one voice instead of a logo with UI text beside it. */
+.nav-link {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 120, "wght" 640;
+  font-weight: 640;
+  letter-spacing: -0.014em;
+}
+
+.figure {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 106, "wght" 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.prose-lead {
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+/* Measure. Serif body copy gets the longer line and the looser leading. */
+.measure { max-width: 62ch; }
+.measure-tight { max-width: 46ch; }
+
+/* ---------------------------------------------------------------------------
+   Page furniture
+   --------------------------------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .shell { padding-inline: 4.5rem; }
+}
+
+/* A scrim between the surface and the copy. The mesh keeps its full shape and
+   its full reach; this only lifts the contrast where words sit on top of it. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  /* Narrow screens: the copy stacks at the top, so shade further down. */
+  background: linear-gradient(
+    180deg,
+    var(--ground) 0%,
+    var(--ground) 16%,
+    color-mix(in oklab, var(--ground) 86%, transparent) 40%,
+    color-mix(in oklab, var(--ground) 58%, transparent) 58%,
+    transparent 74%
+  );
+}
+@media (min-width: 1024px) {
+  .hero-scrim {
+    /* Wide screens: the copy sits left, the tallest crest to the right. */
+    background: linear-gradient(
+      100deg,
+      var(--ground) 0%,
+      color-mix(in oklab, var(--ground) 80%, transparent) 28%,
+      transparent 58%
+    );
+  }
+}
+
+/* Frosted header.
+
+   A binary dark/light swap leaves one ugly frame: the bar is still dark while
+   the band behind it is already half light, and the navigation washes out
+   (1.27:1 measured before this). So the header does not switch, it *blends*:
+   --header-mix carries how much of the header band the inverted contact block
+   actually covers, and every colour is a mix driven by it. Registering the
+   property makes it a real number, so calc() inside color-mix() is valid. */
+@property --header-mix {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.header-glass {
+  --mix: calc(var(--header-mix) * 100%);
+  /* Steepened around the crossover, and clamped so it never sits mid-grey. */
+  --tmix: clamp(0%, calc((var(--header-mix) - 0.45) * 500%), 100%);
+
+  /* Colour tokens are read at the point of use, so redefining them here
+     re-resolves every child without touching a single class name. */
+  --color-fg: color-mix(in srgb, #edeae3, #101317 var(--tmix));
+  --color-dim: color-mix(in srgb, #8b8a84, #3f4247 var(--tmix));
+  --color-faint: color-mix(in srgb, #85847e, #6f7277 var(--tmix));
+  --color-rule: color-mix(in srgb, rgba(237, 234, 227, 0.14), rgba(16, 19, 23, 0.16) var(--mix));
+  --accent: color-mix(in srgb, #56b4e9, #0072b2 var(--tmix));
+
+  background: color-mix(in srgb, rgba(16, 19, 23, 0.58), rgba(237, 234, 227, 0.62) var(--mix));
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid
+    color-mix(in srgb, rgba(237, 234, 227, 0.11), rgba(16, 19, 23, 0.14) var(--mix));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, rgba(237, 234, 227, 0.08), rgba(255, 255, 255, 0.55) var(--mix)),
+    0 8px 30px color-mix(in srgb, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.1) var(--mix));
+}
+
+/* The mark is a wireframe cube, the same family as the hero surface. The PNG
+   itself is recoloured to the accent, so no filter is needed here and the
+   favicon matches the header. */
+.logo-mark {
+  opacity: 0.92;
+  transition: opacity 300ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+a:hover .logo-mark {
+  opacity: 1;
+  transform: rotate(-8deg) scale(1.06);
+}
+
+/* The wordmark. Archivo at the far end of its width axis and heavy with it:
+   a setting no interface reaches for by default, which is the point. */
+.wordmark {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 125, "wght" 800;
+  font-weight: 800;
+  letter-spacing: -0.038em;
+  line-height: 1;
+}
+
+/* The plotting grid the hero surface stands on, carried through the page.
+   Monochrome, and the only texture left in the backdrop. */
+.grid-dots {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 60% at 50% 28%, #000 15%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 60% at 50% 28%, #000 15%, transparent 78%);
+}
+
+/* The isometric projection of a square grid is a diamond, so its corners get
+   cut by the canvas box and read as hard straight edges. This dissolves the
+   whole thing into the ground instead. */
+.surface-mask {
+  /* Wide and tall enough that only the left and right corners fall into the
+     fade: the top stays open so a crest can climb behind the headline. */
+  -webkit-mask-image: radial-gradient(ellipse 74% 210% at 50% 108%, #000 56%, transparent 90%);
+  mask-image: radial-gradient(ellipse 74% 210% at 50% 108%, #000 56%, transparent 90%);
+}
+
+/* Film grain. One fixed layer over the whole page. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 700ms steps(1) infinite;
+}
+@keyframes grain-shift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, 1%); }
+  50%  { transform: translate(1%, -2%); }
+  75%  { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------------------------------------------------------------------------
+   Service rows
+   --------------------------------------------------------------------------- */
+.service-row { position: relative; isolation: isolate; }
+
+.service-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fg);
+  opacity: 0.035;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-row:hover::before,
+.service-row:focus-within::before { transform: scaleX(1); }
+
+.row-tick {
+  position: absolute;
+  left: 0;
+  top: 0.44em;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-row:hover .row-tick,
+.service-row:focus-within .row-tick { width: 2.75rem; }
+
+.row-title {
+  display: block;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-row:hover .row-title,
+.service-row:focus-within .row-title { transform: translateX(3.9rem); }
+
+@media (max-width: 767px) {
+  .service-row:hover .row-title,
+  .service-row:focus-within .row-title { transform: translateX(2rem); }
+  .service-row:hover .row-tick { width: 1.25rem; }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain { animation: none; }
+}

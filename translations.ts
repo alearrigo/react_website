@@ -2,159 +2,161 @@ export type Language = 'it' | 'en';
 
 export const translations = {
   it: {
-    // Navbar
     nav: {
-      home: 'Home',
-      about: 'Chi Sono',
+      about: 'Chi sono',
       services: 'Servizi',
-      gallery: 'Gallery',
-      techStack: 'Tech Stack',
+      process: 'Processo',
       contact: 'Contatti',
     },
-    // Hero
     hero: {
-      available: 'Disponibile per nuovi progetti',
-      greeting: 'Ciao, sono',
-      description: 'Un <strong>Data Scientist</strong> & Product Manager dedicato a trasformare dati complessi in intelligenza azionabile. Specializzato in analytics sanitaria ed ecosistemi open-source.',
-      cta: 'Lavoriamo Insieme',
-      viewWork: 'Esplora i Miei Servizi',
+      // Line 1 is index 0. The Hero sets line 1 in the serif italic.
+      headline: ['Trasformo', 'dati sanitari', 'in decisioni.'],
+      lead: 'Data scientist e product manager. Otto anni di lavoro sui dati sanitari: analisi rigorose, strumenti progettati per la produzione, formazione su R per i professionisti che quei dati li utilizzano ogni giorno.',
+      cta: 'Contattami',
+      viewWork: 'I servizi',
     },
-    // About
     about: {
-      title: 'Chi Sono',
-      subtitle: 'La mia storia',
+      title: 'Chi sono',
+      lead: 'Otto anni dedicati a rendere leggibili i dati di chi cura le persone.',
       paragraphs: [
-        'Sono un Data Scientist con una forte passione per la trasformazione dei dati in insight azionabili. Il mio percorso professionale mi ha portato a lavorare nel settore sanitario, dove ho sviluppato soluzioni analitiche per migliorare l\'efficienza operativa e la qualità delle cure.',
-        'Credo fermamente nel potenziale di R e dell\'ecosistema open-source per democratizzare l\'accesso all\'analisi dei dati. La mia missione è rendere la data science accessibile e comprensibile a tutti.',
-        'Oltre al lavoro tecnico, mi dedico alla formazione e alla consulenza, aiutando organizzazioni e professionisti a sfruttare al meglio il potere dei dati.',
+        'Lavoro nel settore sanitario, dove il compito è sempre lo stesso: prendere dati che nessuno riesce a interpretare e restituirli in una forma su cui si può decidere. L’obiettivo non è un report più curato, ma una decisione più difendibile.',
+        'Uso R e l’ecosistema open source per una ragione pratica prima che ideologica: gli strumenti aperti producono risultati che chiunque può riprodurre passo per passo. In ambito sanitario la riproducibilità non è un requisito formale, è ciò che distingue un’analisi da un’opinione.',
+        'Al lavoro analitico affianco un’attività continuativa di formazione, tra corsi, workshop e affiancamento. Un’analisi che solo io so riprodurre ha vita breve: si esaurisce nel momento in cui il progetto si chiude.',
       ],
+      tools: 'Strumenti di lavoro quotidiani: R, tidyverse, Shiny, Rhino, Quarto, DuckDB, SQL, Docker, Git, Linux. Tutti aperti, verificabili e installabili all’interno di un’infrastruttura ospedaliera.',
       highlights: [
-        { label: 'Anni di esperienza', value: '8+' },
-        { label: 'Progetti completati', value: '20+' },
-        { label: 'Clienti soddisfatti', value: '10+' },
+        { label: 'Anni nel settore', value: 8, suffix: '+' },
+        { label: 'Progetti consegnati', value: 20, suffix: '+' },
+        { label: 'Organizzazioni seguite', value: 10, suffix: '+' },
       ],
     },
-    // Services
     services: {
       title: 'Servizi',
-      subtitle: 'Come posso aiutarti',
+      lead: 'Tre modalità di collaborazione, a seconda del punto in cui ti trovi.',
       items: [
         {
           title: 'Consulenza',
-          description: 'Analisi strategica dei dati per supportare le decisioni aziendali. Ti aiuto a identificare le opportunità nascoste nei tuoi dati e a costruire una roadmap data-driven.',
-          features: ['Analisi esplorativa', 'Business Intelligence', 'Data Strategy', 'KPI & Metriche'],
+          description: 'Analisi strategica per organizzazioni che dispongono dei dati ma non della struttura per interrogarli. Definiamo quali domande meritano una risposta, quali no, e quale percorso porta a ottenerla con le risorse effettivamente disponibili.',
+          features: ['Analisi esplorativa', 'Business intelligence', 'Data strategy', 'KPI e metriche'],
         },
         {
           title: 'Formazione',
-          description: 'Corsi personalizzati su R, data visualization e analisi statistica. Dalla base all\'avanzato, per singoli o team aziendali.',
-          features: ['Corsi R & RStudio', 'Data Visualization', 'Statistica applicata', 'Workshop pratici'],
+          description: 'Corsi su R, visualizzazione e statistica applicata, calibrati sul livello reale del gruppo e non su un programma standard. Pensati per team che oggi affidano al foglio di calcolo analisi che richiederebbero strumenti diversi.',
+          features: ['Corsi R e RStudio', 'Data visualization', 'Statistica applicata', 'Workshop pratici'],
         },
         {
           title: 'Sviluppo',
-          description: 'Creazione di librerie R personalizzate e dashboard interattive con Shiny. Soluzioni su misura per le tue esigenze analitiche.',
-          features: ['Librerie R custom', 'Dashboard Shiny', 'Report automatizzati', 'API & Integrazioni'],
+          description: 'Dall’analisi funzionante al software mantenibile: librerie R documentate e dashboard Shiny progettate per la produzione, con il passaggio di consegne necessario perché restino operative nel tempo.',
+          features: ['Librerie R custom', 'Dashboard Shiny', 'Report automatizzati', 'API e integrazioni'],
         },
       ],
     },
-    // Tech Stack
-    techStack: {
-      title: 'Tech Stack',
-      subtitle: 'Strumenti e tecnologie',
-      description: 'Ogni progetto ha esigenze diverse, ma questi sono gli strumenti su cui faccio affidamento quotidianamente. Un ecosistema consolidato che mi permette di coprire l\'intero ciclo di vita del dato — dall\'analisi esplorativa alla messa in produzione di soluzioni scalabili.',
+    process: {
+      title: 'Come lavoro',
+      lead: 'Quattro fasi. In ogni momento sai a che punto siamo e cosa viene dopo.',
+      steps: [
+        {
+          title: 'Primo confronto',
+          body: 'Mezz’ora per inquadrare il problema e verificare che sia effettivamente quello percepito. Se emerge che non serve un intervento esterno, lo dico apertamente.',
+        },
+        {
+          title: 'Diagnosi',
+          body: 'Esame dei dati reali, non della documentazione che li descrive. Stabilisco cosa è possibile ottenere con il patrimonio informativo esistente, cosa richiederebbe nuove raccolte e quali domande i dati non possono risolvere.',
+        },
+        {
+          title: 'Proposta',
+          body: 'Perimetro, tempi e condizioni definiti per iscritto. I progetti estesi vengono articolati in fasi autonome, così che ciascuna produca un risultato utilizzabile anche se il percorso si interrompe.',
+        },
+        {
+          title: 'Consegna',
+          body: 'Codice funzionante e documentazione utilizzabile da terzi, con formazione di chi dovrà occuparsi della manutenzione. L’obiettivo esplicito è l’autonomia: a distanza di un anno lo stesso lavoro non deve richiedere il mio intervento.',
+        },
+      ],
     },
-    // Contact
     contact: {
-      title: 'Costruiamo qualcosa di',
-      titleHighlight: 'straordinario',
-      titleEnd: 'insieme.',
-      description: 'Che tu abbia un progetto specifico in mente o voglia semplicemente parlare del futuro della data science, sono sempre aperto a nuove connessioni.',
-      cta: 'Scrivimi un Messaggio',
-      blog: 'Leggi il Mio Blog',
-      response: 'Rispondo solitamente entro 24 ore',
-    },
-    // Footer
-    footer: {
-      copyright: 'Realizzato con React & Tailwind.',
-      privacy: 'Privacy',
-      blog: 'Blog',
+      headline: ['Parliamo', 'del progetto.'],
+      description: 'Scrivimi anche se il perimetro non è ancora definito: il primo confronto serve esattamente a delimitarlo e a capire se posso essere utile.',
+      cta: 'info@alessandroarrigo.com',
+      response: 'Risposta entro 24 ore',
     },
   },
+
   en: {
-    // Navbar
     nav: {
-      home: 'Home',
       about: 'About',
       services: 'Services',
-      gallery: 'Gallery',
-      techStack: 'Tech Stack',
+      process: 'Process',
       contact: 'Contact',
     },
-    // Hero
     hero: {
-      available: 'Available for new projects',
-      greeting: "Hi, I'm",
-      description: 'A <strong>Data Scientist</strong> & Product Manager dedicated to transforming complex data into actionable intelligence. Specializing in healthcare analytics and open-source ecosystems.',
-      cta: "Let's Work Together",
-      viewWork: 'Explore My Services',
+      headline: ['I turn health', 'data into', 'decisions.'],
+      lead: 'Data scientist and product manager. Eight years working with healthcare data: rigorous analysis, tools built for production, and R training for the professionals who use those numbers every day.',
+      cta: 'Get in touch',
+      viewWork: 'The services',
     },
-    // About
     about: {
-      title: 'About Me',
-      subtitle: 'My story',
+      title: 'About',
+      lead: 'Eight years spent making the data of people who care for patients readable.',
       paragraphs: [
-        'I am a Data Scientist with a strong passion for transforming data into actionable insights. My professional journey has led me to work in the healthcare sector, where I have developed analytical solutions to improve operational efficiency and quality of care.',
-        'I firmly believe in the potential of R and the open-source ecosystem to democratize access to data analysis. My mission is to make data science accessible and understandable to everyone.',
-        'Beyond technical work, I dedicate myself to training and consulting, helping organizations and professionals make the most of the power of data.',
+        'I work in healthcare, where the task is always the same: take data nobody can interpret and return it in a shape you can decide on. The goal is not a better-looking report, but a more defensible decision.',
+        'I use R and the open-source ecosystem for a practical reason before an ideological one: open tools produce results anyone can reproduce step by step. In healthcare, reproducibility is not a formality, it is what separates an analysis from an opinion.',
+        'Alongside the analytical work I teach continuously, through courses, workshops and hands-on support. An analysis only I can reproduce is short-lived: it ends the moment the project does.',
       ],
+      tools: 'Daily tools: R, tidyverse, Shiny, Rhino, Quarto, DuckDB, SQL, Docker, Git, Linux. All open, verifiable, and installable inside hospital infrastructure.',
       highlights: [
-        { label: 'Years of experience', value: '8+' },
-        { label: 'Projects completed', value: '20+' },
-        { label: 'Happy clients', value: '10+' },
+        { label: 'Years in the sector', value: 8, suffix: '+' },
+        { label: 'Projects delivered', value: 20, suffix: '+' },
+        { label: 'Organisations advised', value: 10, suffix: '+' },
       ],
     },
-    // Services
     services: {
       title: 'Services',
-      subtitle: 'How I can help you',
+      lead: 'Three ways to work together, depending on where you currently stand.',
       items: [
         {
           title: 'Consulting',
-          description: 'Strategic data analysis to support business decisions. I help you identify hidden opportunities in your data and build a data-driven roadmap.',
-          features: ['Exploratory Analysis', 'Business Intelligence', 'Data Strategy', 'KPIs & Metrics'],
+          description: 'Strategic analysis for organisations that hold the data but not the structure to interrogate it. We establish which questions deserve an answer, which do not, and what route reaches one with the resources actually available.',
+          features: ['Exploratory analysis', 'Business intelligence', 'Data strategy', 'KPIs and metrics'],
         },
         {
           title: 'Training',
-          description: 'Customized courses on R, data visualization, and statistical analysis. From beginner to advanced, for individuals or corporate teams.',
-          features: ['R & RStudio Courses', 'Data Visualization', 'Applied Statistics', 'Hands-on Workshops'],
+          description: 'Courses on R, visualisation and applied statistics, calibrated to the group’s real level rather than to a standard syllabus. Built for teams currently handling in spreadsheets the analysis that calls for different tools.',
+          features: ['R and RStudio courses', 'Data visualization', 'Applied statistics', 'Hands-on workshops'],
         },
         {
           title: 'Development',
-          description: 'Creation of custom R libraries and interactive dashboards with Shiny. Tailored solutions for your analytical needs.',
-          features: ['Custom R Libraries', 'Shiny Dashboards', 'Automated Reports', 'APIs & Integrations'],
+          description: 'From working analysis to maintainable software: documented R packages and Shiny dashboards built for production, with the handover required to keep them running over time.',
+          features: ['Custom R libraries', 'Shiny dashboards', 'Automated reports', 'APIs and integrations'],
         },
       ],
     },
-    // Tech Stack
-    techStack: {
-      title: 'Tech Stack',
-      subtitle: 'Tools & technologies',
-      description: 'Every project has different needs, but these are the tools I rely on daily. A proven ecosystem that allows me to cover the entire data lifecycle — from exploratory analysis to deploying scalable, production-ready solutions.',
+    process: {
+      title: 'How I work',
+      lead: 'Four stages. At any point you know where we are and what comes next.',
+      steps: [
+        {
+          title: 'First conversation',
+          body: 'Half an hour to frame the problem and confirm it is the one you think it is. If it turns out no outside help is needed, I say so plainly.',
+        },
+        {
+          title: 'Diagnosis',
+          body: 'A look at the actual data, not the documentation describing it. I establish what can be achieved with the information you already hold, what would require new collection, and which questions data cannot settle.',
+        },
+        {
+          title: 'Proposal',
+          body: 'Scope, timeline and terms set out in writing. Larger projects are broken into self-contained stages, so each produces something usable even if the work stops there.',
+        },
+        {
+          title: 'Handover',
+          body: 'Working code and documentation a third party can follow, with training for whoever will maintain it. The stated goal is independence: a year on, the same work should not require me.',
+        },
+      ],
     },
-    // Contact
     contact: {
-      title: "Let's build something",
-      titleHighlight: 'extraordinary',
-      titleEnd: 'together.',
-      description: "Whether you have a specific project in mind or just want to chat about the future of data science, I'm always open to new connections.",
-      cta: 'Drop Me a Message',
-      blog: 'Read My Blog',
-      response: 'Typically responds within 24 hours',
-    },
-    // Footer
-    footer: {
-      copyright: 'Built with React & Tailwind.',
-      privacy: 'Privacy',
-      blog: 'Blog',
+      headline: ['Let’s discuss', 'your project.'],
+      description: 'Write even if the scope is not yet defined: the first conversation exists precisely to define it and to establish whether I can be useful.',
+      cta: 'info@alessandroarrigo.com',
+      response: 'Reply within 24 hours',
     },
   },
 };

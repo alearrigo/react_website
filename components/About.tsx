@@ -1,66 +1,112 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Translations } from '../translations';
+import { useMediaQuery } from '../lib/useMediaQuery';
+import { MaskLines, Lift, Rule, CountUp } from './Kinetics';
 
 interface AboutProps {
   t: Translations;
 }
 
 const About: React.FC<AboutProps> = ({ t }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const portraitRef = React.useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const { scrollYProgress } = useScroll({
+    target: portraitRef,
+    offset: ['start end', 'end start'],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], reduced ? ['0%', '0%'] : ['0%', '-4.8%']);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  // The heading drifts against the scroll a little, so the column feels
+  // like it is settling into place rather than sitting on a grid.
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  // Only drift where there is margin to drift into: on a phone the same
+  // ±26px pushes the heading past the right edge of the document.
+  const wide = useMediaQuery('(min-width: 1024px)');
+  const headDrift = useTransform(sectionProgress, [0, 1], [26, -26]);
+  const headX = useTransform(headDrift, (v) => (reduced || !wide ? 0 : v));
 
   return (
     <section
-      id="about"
       ref={sectionRef}
-      className={`py-24 bg-slate-900/50 transition-all duration-1000 transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-      }`}
+      id="about"
+      className="scroll-mt-24 pt-28 lg:pt-40"
     >
-      <div className="container mx-auto px-6">
-        <div className="mb-16">
-          <p className="text-emerald-400 font-semibold uppercase tracking-widest text-sm mb-2">{t.about.subtitle}</p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">{t.about.title}</h2>
-          <div className="h-1.5 w-20 bg-emerald-500 rounded-full"></div>
-        </div>
+      <div className="shell">
+        <Rule className="mb-14" />
 
-        <div className="grid lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2 space-y-6">
-            {t.about.paragraphs.map((paragraph, index) => (
-              <p key={index} className="text-slate-400 leading-relaxed text-lg">
-                {paragraph}
+        <div className="grid gap-x-16 gap-y-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <motion.div style={{ x: headX }}>
+              <MaskLines
+                lines={[t.about.title]}
+                className="display text-[clamp(2.55rem,6.3vw,5.3rem)]"
+              />
+            </motion.div>
+
+            <Lift delay={0.12}>
+              <p className="prose-lead measure-tight mt-6 text-[1.32rem] text-dim">
+                {t.about.lead}
               </p>
-            ))}
+            </Lift>
+
+            <Lift delay={0.18}>
+              <div
+                ref={portraitRef}
+                className="relative mt-12 aspect-[4/5] w-full max-w-[27rem] overflow-hidden bg-raised"
+              >
+                <motion.img
+                  src={`${import.meta.env.BASE_URL}my_pic.webp`}
+                  alt="Alessandro Arrigo"
+                  width={800}
+                  height={1067}
+                  style={{ y: imageY }}
+                  className="h-[105%] w-full object-cover"
+                  loading="lazy"
+                />
+                {/* A hairline crop marker, the way a plot frames a panel. */}
+                <span className="absolute bottom-0 left-0 h-8 w-[2px] bg-accent" />
+                <span className="absolute bottom-0 left-0 h-[2px] w-8 bg-accent" />
+              </div>
+            </Lift>
           </div>
 
-          <div className="space-y-6">
-            {t.about.highlights.map((highlight, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-2xl glass hover:bg-slate-800/40 transition-all duration-300"
-              >
-                <div className="text-4xl font-black text-emerald-400 mb-2">{highlight.value}</div>
-                <div className="text-slate-400 font-medium">{highlight.label}</div>
-              </div>
-            ))}
+          <div className="lg:col-span-7">
+            <div className="measure space-y-7 text-[1.18rem] text-fg/85">
+              {t.about.paragraphs.map((paragraph, index) => (
+                <Lift key={index} delay={index * 0.07}>
+                  <p>{paragraph}</p>
+                </Lift>
+              ))}
+            </div>
+
+            <Lift delay={0.24}>
+              <p className="measure mt-10 text-[0.98rem] leading-relaxed text-faint">
+                {t.about.tools}
+              </p>
+            </Lift>
+
+            <div className="mt-14 grid grid-cols-3 border-t border-rule">
+              {t.about.highlights.map((highlight, index) => (
+                <Lift
+                  key={highlight.label}
+                  delay={index * 0.08}
+                  className={`py-7 pr-3 ${index > 0 ? 'border-l border-rule pl-4 sm:pl-7' : ''}`}
+                >
+                  <div className="figure text-[clamp(2.8rem,6.4vw,4.7rem)] text-fg">
+                    <CountUp to={highlight.value} suffix={highlight.suffix} />
+                  </div>
+                  <div className="nav-link mt-2 text-[0.98rem] leading-snug text-faint [overflow-wrap:anywhere]">
+                    {highlight.label}
+                  </div>
+                </Lift>
+              ))}
+            </div>
           </div>
         </div>
       </div>

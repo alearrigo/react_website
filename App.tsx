@@ -1,57 +1,91 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
-import TechStack from './components/TechStack';
+import Process from './components/Process';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { translations, Language } from './translations';
+import { useSmoothScroll } from './lib/scroll';
+
+const LANG_KEY = 'aa-lang';
+
+const readStored = (key: string) => {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
 
 const App: React.FC = () => {
+  const reduced = useReducedMotion() ?? false;
   const [scrolled, setScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [language, setLanguage] = useState<Language>('it');
+  const [language, setLanguage] = useState<Language>(() =>
+    readStored(LANG_KEY) === 'en' ? 'en' : 'it'
+  );
 
   const t = translations[language];
 
+  useSmoothScroll(!reduced);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    // The header band is the top ~76px; the contact block is the only
+    // inverted section, so the header flips exactly while it passes behind.
+    const BAND = 76;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const block = document.getElementById('contact');
+      if (!block) return;
+      const r = block.getBoundingClientRect();
+      // How much of the header band the inverted block actually covers.
+      // Written straight to the DOM: this runs every frame under Lenis and
+      // has no business triggering a React render.
+      const overlap = Math.max(0, Math.min(BAND, r.bottom) - Math.max(0, r.top));
+      document.documentElement.style.setProperty('--header-mix', String(overlap / BAND));
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('light-theme', !isDarkMode);
-  }, [isDarkMode]);
-
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
-  const toggleLanguage = () => setLanguage(language === 'it' ? 'en' : 'it');
+    document.documentElement.lang = language;
+    try {
+      localStorage.setItem(LANG_KEY, language);
+    } catch {
+      /* ignore */
+    }
+  }, [language]);
 
   return (
-    <div className="min-h-screen selection:bg-emerald-500/30">
-      {/* Dynamic Background */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] animate-blob ${isDarkMode ? 'bg-emerald-500/10' : 'bg-emerald-500/20'}`}></div>
-        <div className={`absolute bottom-[10%] right-[-5%] w-[35%] h-[35%] rounded-full blur-[120px] animate-blob animation-delay-2000 ${isDarkMode ? 'bg-blue-500/10' : 'bg-blue-500/20'}`}></div>
-        <div className={`absolute top-[30%] left-[50%] w-[30%] h-[30%] rounded-full blur-[120px] animate-blob animation-delay-4000 ${isDarkMode ? 'bg-purple-500/10' : 'bg-purple-500/20'}`}></div>
-      </div>
+    <>
+      <div className="grid-dots" aria-hidden="true" />
+      <div className="grain" aria-hidden="true" />
 
-      <Navbar scrolled={scrolled} isDarkMode={isDarkMode} toggleTheme={toggleTheme} language={language} toggleLanguage={toggleLanguage} t={t} />
+      <Navbar
+        scrolled={scrolled}
+        language={language}
+        toggleLanguage={() => setLanguage(language === 'it' ? 'en' : 'it')}
+        t={t}
+      />
 
-      <main>
+      <main key={language}>
         <Hero t={t} />
         <About t={t} />
         <Services t={t} />
-        <TechStack t={t} />
+        <Process t={t} />
         <Contact t={t} />
       </main>
 
       <Footer t={t} />
-    </div>
+    </>
   );
 };
 

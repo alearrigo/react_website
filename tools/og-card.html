@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+  Source for public/og.jpg, the link preview card.
+  Render at exactly 1200x630 and save as JPEG q92:
+    node <driver> file://$PWD/tools/og-card.html out.png 1200 630
+  The image path is relative to this source file.
+-->
+<html lang="it"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..700&display=block">
+<style>
+  :root {
+    --ground:#101317; --fg:#edeae3; --fg-dim:#8b8a84; --fg-faint:#5c5b56;
+    --accent:#56b4e9; --dot:rgba(237,234,227,.075);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:1200px; height:630px; overflow:hidden; background:var(--ground);
+         position:relative; font-family:"Archivo",sans-serif; }
+  .dots { position:absolute; inset:0;
+    background-image:radial-gradient(circle,var(--dot) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:radial-gradient(ellipse 85% 60% at 50% 28%,#000 15%,transparent 78%); }
+  canvas { position:absolute; inset:0;
+    -webkit-mask-image:radial-gradient(ellipse 74% 210% at 50% 108%,#000 56%,transparent 90%); }
+  .scrim { position:absolute; inset:0;
+    background:linear-gradient(100deg,var(--ground) 0%,rgba(16,19,23,.8) 30%,transparent 62%); }
+  .wrap { position:absolute; inset:0; padding:56px 64px; display:flex; flex-direction:column; }
+  .mark { display:flex; align-items:center; gap:14px; }
+  .mark img { width:40px; height:40px; }
+  .mark span { font-variation-settings:"wdth" 125,"wght" 800; font-size:26px;
+               letter-spacing:-.038em; color:var(--fg); }
+  h1 { margin-top:auto; font-variation-settings:"wdth" 110,"wght" 780;
+       font-size:76px; line-height:.96; letter-spacing:-.032em; color:var(--fg); }
+  h1 .serif { display:block; font-family:"Newsreader",serif; font-style:italic;
+              font-variation-settings:"opsz" 48,"wght" 300; font-weight:300;
+              font-size:1.1em; line-height:.98; letter-spacing:-.026em; }
+  .foot { margin-top:32px; display:flex; align-items:center; gap:14px;
+          font-variation-settings:"wdth" 120,"wght" 640; font-size:20px;
+          letter-spacing:-.014em; color:var(--fg-dim); }
+  .foot .dot { width:7px; height:7px; border-radius:50%; background:var(--accent); }
+</style></head>
+<body>
+  <canvas id="c" width="1200" height="630"></canvas>
+  <div class="dots"></div>
+  <div class="scrim"></div>
+  <div class="wrap">
+    <div class="mark">
+      <img src="../public/favicon.png" alt="">
+      <span>Alessandro Arrigo</span>
+    </div>
+    <h1>Trasformo<span class="serif">dati sanitari</span>in decisioni.</h1>
+    <div class="foot"><span class="dot"></span>alessandroarrigo.com</div>
+  </div>
+<script>
+// One frozen frame of the hero surface, same maths as components/SurfacePlot.tsx.
+const N=52, W=1200, H=630, t=7.4;
+const peaks=[{ax:.3,ay:.26,sx:.17,sy:.13,h:1.05,w:.075},{ax:.34,ay:.3,sx:-.11,sy:.19,h:.85,w:.13},
+             {ax:.26,ay:.36,sx:.23,sy:-.15,h:.7,w:.055},{ax:.38,ay:.2,sx:-.29,sy:.09,h:.58,w:.04}];
+const surf=(u,v)=>{let z=0;for(const p of peaks){const cx=.5+p.ax*Math.sin(t*p.sx),cy=.5+p.ay*Math.cos(t*p.sy);
+  z+=p.h*Math.exp(-(((u-cx)**2+(v-cy)**2))/p.w);}
+  z+=.14*Math.sin((u*3.1+v*2.3)*Math.PI+t*.32);return Math.max(0,Math.min(z/1.5,1));};
+const ctx=document.getElementById('c').getContext('2d');
+const band=H*.46, halfW=W*.62, halfD=band*.32, lift=band*1.38, oX=W*.5, oY=H;
+const proj=(u,v,z)=>{const x=(u-.5)*2,y=(v-.5)*2;
+  return {sx:oX+(x-y)*halfW*.5, sy:oY+(x+y)*halfD*.5-z*lift, depth:(x+y)/2};};
+const grid=[];for(let i=0;i<N;i++){const r=[];for(let j=0;j<N;j++){const u=i/(N-1),v=j/(N-1),z=surf(u,v);
+  r.push({...proj(u,v,z),z});}grid.push(r);}
+const line=pts=>{for(let k=0;k<pts.length-1;k++){const a=pts[k],b=pts[k+1];
+  const d=(a.depth+b.depth)/2, z=(a.z+b.z)/2, near=1-(d+1.4)/2.8;
+  const al=.05+near*.18+z*.3, warm=Math.max(0,Math.min(1,(z-.42)/.5));
+  const R=Math.round(237+(86-237)*warm), G=Math.round(234+(180-234)*warm), B=Math.round(227+(233-227)*warm);
+  ctx.strokeStyle='rgba('+R+','+G+','+B+','+al.toFixed(3)+')';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(a.sx,a.sy);ctx.lineTo(b.sx,b.sy);ctx.stroke();}};
+for(let i=0;i<N;i++)line(grid[i]);
+for(let j=0;j<N;j++)line(grid.map(r=>r[j]));
+</script></body></html>
