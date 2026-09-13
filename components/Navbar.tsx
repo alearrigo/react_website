@@ -31,6 +31,10 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, language, toggleLanguage, t }
     const lenis = getLenis();
     const overflow = document.body.style.overflow;
     dialog.showModal();
+    // Native dialogs focus their first interactive child. Here that is the
+    // brand link, which makes Safari draw its focus ring around the logo.
+    // Keep the initial focus on the dialog; Tab still enters the menu links.
+    dialog.focus({ preventScroll: true });
     document.body.style.overflow = 'hidden';
     lenis?.stop();
     const desktop = window.matchMedia('(min-width: 768px)');
@@ -156,6 +160,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, language, toggleLanguage, t }
       <dialog
         ref={dialogRef}
         id="mobile-menu"
+        tabIndex={-1}
         aria-label={language === 'it' ? 'Menu di navigazione' : 'Navigation menu'}
         onKeyDown={(event) => {
           if (event.key !== 'Tab') return;
