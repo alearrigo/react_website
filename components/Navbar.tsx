@@ -183,7 +183,21 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, language, toggleLanguage, t }
           >
             <div className="shell flex h-full flex-col">
               <div className="flex items-center justify-between py-6">
-                <span className="wordmark text-[1.16rem]">Alessandro Arrigo</span>
+                <a
+                  href="#"
+                  onClick={go('#')}
+                  className="flex min-w-0 items-center gap-2"
+                  aria-label="Alessandro Arrigo — home"
+                >
+                  <img
+                    src={`${import.meta.env.BASE_URL}favicon.png`}
+                    alt=""
+                    className="logo-mark h-7 w-7 shrink-0"
+                  />
+                  <span className="wordmark text-[1rem] leading-[0.95] min-[360px]:text-[1.08rem]">
+                    Alessandro Arrigo
+                  </span>
+                </a>
                 <button
                   onClick={() => setOpen(false)}
                   className="nav-link px-2 py-1.5 text-[0.94rem] text-dim"
