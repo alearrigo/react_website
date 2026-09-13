@@ -70,14 +70,14 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, language, toggleLanguage, t }
           scrolled ? 'header-glass py-3.5' : 'border-b border-transparent py-6'
         }`}
       >
-        <div className="shell flex items-center justify-between gap-2 sm:gap-6">
-          <a href="#" onClick={go('#')} className="flex items-center gap-3">
+        <div className="shell flex items-center justify-between gap-1.5 sm:gap-6">
+          <a href="#" onClick={go('#')} className="flex min-w-0 items-center gap-2 sm:gap-3">
             <img
               src={`${import.meta.env.BASE_URL}favicon.png`}
               alt=""
-              className="logo-mark hidden h-9 w-9 shrink-0 min-[400px]:block"
+              className="logo-mark h-7 w-7 shrink-0 sm:h-9 sm:w-9"
             />
-            <span className="wordmark text-[clamp(1.1rem,1.55vw,1.55rem)] text-fg transition-opacity hover:opacity-70">
+            <span className="wordmark text-[1rem] leading-[0.95] text-fg transition-opacity hover:opacity-70 min-[360px]:text-[1.08rem] sm:text-[clamp(1.1rem,1.55vw,1.55rem)]">
               Alessandro Arrigo
             </span>
           </a>
